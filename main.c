@@ -1,6 +1,15 @@
 #include <stdio.h>
 
+float saldo;
 
+void consultarSaldo(float saldo) {
+    float copia_saldo = saldo;
+
+    printf("\n--- SALDO ATUAL ---\n");
+    printf("R$ %.2f\n", copia_saldo);
+    printf("-------------------\n");
+    system("pause"); // Aguarda o usuario
+}
 
 int main() {
     int opcao = 0;
