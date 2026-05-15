@@ -1,12 +1,52 @@
 #include <stdio.h>
 
 
+void consultarSaldo(float saldo) {
+    float copia_saldo = saldo;
 
-int main() {
-    int opcao = 0;
-
+    printf("\n--- SALDO ATUAL ---\n");
+    printf("R$ %.2f\n", copia_saldo);
+    printf("-------------------\n");
+    getchar(); 
     
-    while(opcao != 5) {
+}
+
+float realizarDeposito(float saldo) {
+    float valor;
+    printf("Digite o valor do deposito: ");
+    scanf("%f", &valor);
+    
+    if (valor <= 0 ){
+        printf("Valor invalido \n");
+    } else {
+        saldo += valor;
+        printf("Deposito realizado com sucesso!\n");
+    }
+    
+    return saldo;
+}
+float realizarSaque(float saldo) {
+    float valor;
+
+    printf("Valor do saque: ");
+    scanf("%f", &valor);
+    if (valor <= saldo && valor > 0) {
+        saldo -= valor;
+        printf("Saque realizado!\n");
+        printf("Saque atual: %f", saldo);
+    } else {
+        printf("Saldo insuficiente ou valor invalido!\n");
+    }
+
+    return saldo;
+}
+
+int main() { 
+    
+    int opcao = -1;
+    float saldo = 0.0;
+
+    while(opcao != 0) {
         printf("\n========================\n");
         printf(" CAIXA ELETRONICO \n");
         printf("========================\n");
@@ -17,46 +57,31 @@ int main() {
         printf("========================\n");
         printf("Escolha uma opcao: ");
         
-        // Lê a escolha do usuário
+        
         scanf("%d", &opcao);
 
-        // Estrutura de decisão baseada na variável 'opcao'
         switch(opcao) {
 
             case 1:
-               
-                printf("Saldo: R$ 1000,00\n");
-                    break;
+                consultarSaldo(saldo);
+                break;
 
             case 2:
-                printf("Digite o valor do saque: ");
-                float saque;
-                scanf("%f", &saque);
-                if (saque > 1000) {
-                    printf("Saldo insuficiente!\n");
-                } else {
-                    printf("Saque realizado com sucesso! Novo saldo: R$ %.2f\n", 1000 - saque);
-                }
+                saldo = realizarSaque(saldo);
                 break;
             case 3:
-                printf("Digite o valor do deposito: ");
-                float deposito;
-                scanf("%f", &deposito);
-                printf("Deposito realizado com sucesso! Novo saldo: R$ %.2f\n", 1000 + deposito);
+                saldo = realizarDeposito(saldo);
                 break;
                 
-            case 0: { 
-                 // Finaliza o loop while 
+            case 0: 
                 printf("Saindo...\n");
                 break;
-                
-            }
 
             default:
-                // Executado caso o usuário digite um número que não esteja no menu
+                
                 printf("Opcao invalida!\n");
         }
     }
 
-    return 0; // Encerra o programa com sucesso
+    return 0; 
 }
