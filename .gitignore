@@ -1,3 +1,5 @@
 *.exe
 output
 main.dSYM\Contents
+
+# Teste
