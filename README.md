@@ -34,4 +34,4 @@ atm.exe
 Projeto desenvolvido por:
 
 * **Lucas Barreto Santana** - RM: 573149
-* **Pablo [INSERIR SOBRENOME AQUI]** - RM: [INSERIR RM AQUI]
+* **Pablo Renato dos Santos Sobral de Carvalho** - RM: 569894
