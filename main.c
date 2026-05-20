@@ -2,11 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-char operacao[80];          // string da operação atual
-char extrato[100][80];      // até 100 linhas de extrato
-int qtd_extrato = 0;        // contador
+char operacao[80];          // Armazena a string formatada da última operação
+char extrato[100][80];      // Matriz para armazenar o histórico de até 100 operações
+int qtd_extrato = 0;        // Contador global de operações realizadas
 
 void exibirMenu(){
+    // Exibe as opções disponíveis para o usuário no console
     printf("\n========================\n");
     printf(" CAIXA ELETRONICO \n");
     printf("========================\n");
@@ -20,6 +21,7 @@ void exibirMenu(){
 }
 
 void gerarMensagemOperacao(char* texto_operacao, const char* tipo, float valor, float saldo_antigo, float saldo) {
+    // Formata uma string detalhada sobre a transação para ser salva no extrato
     snprintf(texto_operacao, 80,
         "\nOperacao realizada: %s\n"
         "Valor %s: %.2f\n"
@@ -29,11 +31,13 @@ void gerarMensagemOperacao(char* texto_operacao, const char* tipo, float valor, 
 }
 
 void pausarSistema() {
+    // Interrompe a execução até que o usuário pressione Enter, evitando que mensagens sumam da tela
     printf("\nPressione Enter para continuar...");
     getchar();
 }
 
 void consultarSaldo(float saldo) {
+    // Apenas exibe o valor atual da variável saldo
     float copia_saldo = saldo;
 
     system("cls");
@@ -53,11 +57,13 @@ float realizarDeposito(float saldo) {
 
     printf("\n--- DEPOSITO ---\n");
     printf("Digite o valor do deposito: R$ ");
-
+    
+    // Validação para garantir que a entrada seja um número
     if (scanf("%f", &valor) != 1) {
 
         printf("Entrada invalida!\n");
 
+        // Limpa o buffer do teclado para evitar loops infinitos
         while(getchar() != '\n');
 
         pausarSistema();
@@ -67,13 +73,15 @@ float realizarDeposito(float saldo) {
 
     while(getchar() != '\n');
 
+    // Verifica se o valor é positivo antes de alterar o saldo
     if (valor <= 0 ){
         printf("Valor invalido!\n");
     } else {
         saldo += valor;
         printf("Deposito realizado com sucesso!\n");
         printf("Saldo atual: R$ %.2f", saldo);
-
+        
+        // Registra a operação no histórico global
         gerarMensagemOperacao(operacao, "Deposito", valor, saldo_antigo, saldo);
 
         if (qtd_extrato < 100) {
@@ -112,12 +120,14 @@ float realizarSaque(float saldo) {
 
     while(getchar() != '\n');
 
+    // Verifica se há saldo suficiente para a retirada
     if (valor <= saldo && valor > 0) {
         saldo -= valor;
 
         printf("Saque realizado!\n");
         printf("Saldo atual: R$ %.2f\n", saldo);
-
+        
+        // Registra a operação no histórico global
         gerarMensagemOperacao(operacao, "Saque", valor, saldo_antigo, saldo);
 
         if (qtd_extrato < 100) {
@@ -136,11 +146,13 @@ float realizarSaque(float saldo) {
 }
 
 void consultarExtratosRecentes() {
+    // Percorre a matriz de extrato de trás para frente para mostrar os últimos registros
     printf("\n--- EXTRATO (3 mais recentes) ---\n");
 
     int total = qtd_extrato;
     int inicio = (total > 3) ? total - 3 : 0;
 
+    // Loop que exibe as últimas 3 transações ou todas se houver menos de 3
     for (int i = total - 1; i >= inicio; i--) {
         printf("%s\n", extrato[i]);
     }
@@ -153,10 +165,12 @@ int main() {
     int opcao = -1;
     float saldo = 0.0;
 
+    // Loop principal do programa
     do {
         system("cls");
         exibirMenu();
-
+        
+        // Validação da entrada do menu
         if (scanf("%d", &opcao) != 1) {
 
             printf("Entrada invalida!\n");
@@ -170,6 +184,7 @@ int main() {
 
         while (getchar()!= '\n');
 
+        // Direciona para a função correspondente à escolha do usuário
         switch(opcao) {
 
             case 1:
